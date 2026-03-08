@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BizDash - Dashboard Empresarial Avanzado
 
-## Getting Started
+![BizDash Banner](public/screenshots/dashboard_main.png)
 
-First, run the development server:
+**BizDash** es un panel de control empresarial moderno y de alto rendimiento construido con **Next.js 15**. Ofrece una experiencia visual premium con métricas en tiempo real, análisis detallados y una arquitectura escalable basada en **Atomic Design**.
+
+## ✨ Características Principales
+
+- 📊 **Visualización de Datos**: Gráficos interactivos de ingresos, conversión y usuarios mediante `Chart.js`.
+- 🔍 **Búsqueda en Tiempo Real**: Filtrado dinámico de métricas y dashboards.
+- ⏱️ **Filtros Temporales**: Selección de rangos de tiempo (24h, 7d, 30d, 90d) con hidratación inmediata.
+- 📱 **Diseño Responsive Pro**: Sidebar colapsable y layouts adaptativos para móviles y tablets.
+- 🎨 **Estética Premium**: Interfaz moderna con animaciones fluidas y sistema de diseño profesional.
+- 🚀 **Despliegue Docker**: Configuración completa para producción en contenedores.
+
+## 🛠️ Stack Tecnológico
+
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Estilos**: [Tailwind CSS 3](https://tailwindcss.com/)
+- **Gestión de Estado**: [Zustand](https://zustand-demo.pmnd.rs/)
+- **Gráficos**: [Chart.js](https://www.chartjs.org/) & [react-chartjs-2](https://react-chartjs-2.js.org/)
+- **Iconos**: [Heroicons](https://heroicons.com/)
+- **Infraestructura**: Docker & Docker Compose
+- **Testing**: Jest & Cypress
+
+## 📁 Estructura del Proyecto
+
+El proyecto sigue los principios de **Atomic Design** para asegurar la mantenibilidad y escalabilidad de los componentes UI:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── components/
+│   ├── atoms/         # Componentes base (Botones, Typography, Badges)
+│   ├── molecules/     # Combinaciones simples (MetricCard, SearchBar)
+│   ├── organisms/     # Secciones complejas (MetricsGrid, ChartsSection)
+│   ├── templates/     # Layouts de página y estructuras globales
+│   └── optimization/  # Componentes de carga diferida y monitoreo
+├── hooks/             # Lógica de negocio y hooks personalizados
+├── lib/               # Utilidades y configuración de librerías
+├── services/          # Llamadas a API y servicios de datos
+└── types/             # Definiciones de TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Instalación y Uso
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Requisitos Previos
+- Node.js 18+ 
+- npm o yarn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Desarrollo Local
 
-## Learn More
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Iniciar el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+   Accede a `http://localhost:3001`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Ejecutar pruebas:
+   ```bash
+   npm test          # Pruebas unitarias (Jest)
+   npm run cypress   # Pruebas E2E (Cypress)
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🐳 Despliegue con Docker
 
-## Deploy on Vercel
+Para correr la aplicación en un entorno de producción optimizado:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker-compose up --build -d
+```
+Accede a la versión de producción en `http://localhost:3000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📸 Showcase Visual
+
+### Dashboard Principal
+![Dashboard](public/screenshots/dashboard_main.png)
+
+### Búsqueda e Interactividad
+![Búsqueda](public/screenshots/search_empty_state.png)
+
+### Verificación Docker
+![Docker](public/screenshots/docker_demo.webp)
+
+---
+
+Desarrollado con ❤️ para la gestión empresarial moderna.
