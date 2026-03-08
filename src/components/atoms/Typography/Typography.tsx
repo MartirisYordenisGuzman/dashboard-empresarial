@@ -3,12 +3,13 @@ import React from 'react';
 import { cn } from '@lib/utils';
 
 export interface TypographyProps {
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label';
-    color?: 'primary' | 'secondary' | 'muted' | 'error' | 'success';
-    weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
-    align?: 'left' | 'center' | 'right';
-    children: React.ReactNode;
-    className?: string;
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label';
+  color?: 'primary' | 'secondary' | 'muted' | 'error' | 'success';
+  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
+  align?: 'left' | 'center' | 'right';
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: any;
 }
 
 export const Typography: React.FC<TypographyProps> = ({
@@ -18,6 +19,7 @@ export const Typography: React.FC<TypographyProps> = ({
   align = 'left',
   children,
   className,
+  ...props
 }) => {
   const variantStyles = {
     h1: 'text-4xl font-bold tracking-tight',
@@ -62,6 +64,7 @@ export const Typography: React.FC<TypographyProps> = ({
         alignStyles[align],
         className
       )}
+      {...props}
     >
       {children}
     </Component>

@@ -48,3 +48,4 @@ export default async function DashboardPage() {
 
 // Configuración de revalidación incremental (ISR)
 export const revalidate = 300; // 5 minutos
+export const dynamic = 'force-dynamic';

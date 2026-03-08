@@ -11,7 +11,19 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: [ "CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  cypress:
+    image: "cypress/included:13.17.0"
+    environment:
+      - CYPRESS_baseUrl=http://app:3000
+      - TS_NODE_PROJECT=cypress/tsconfig.json
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
+    depends_on:
+      app:
+        condition: service_healthy

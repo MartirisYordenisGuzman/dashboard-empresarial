@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { Metric, ChartData, DashboardFilters, TimeRange } from '@/types/dashboard';
+import { dashboardService } from '@services/dashboard-service';
 
 interface DashboardState {
     // Estado
@@ -72,34 +73,24 @@ export const useDashboardStore = create<DashboardState>()(
                     set({ isLoading: true, error: null });
 
                     try {
-                        // Simulación de llamada a API
-                        await new Promise((resolve) => setTimeout(resolve, 1000));
-                        set({ metrics: initialMetrics, isLoading: false });
-                    } catch {
-                        set({ error: 'Error al cargar métricas', isLoading: false });
+                        const metrics = await dashboardService.getMetrics();
+                        set({ metrics, isLoading: false });
+                    } catch (error: any) {
+                        set({ error: error.message || 'Error al cargar métricas', isLoading: false });
                     }
                 },
                 fetchChartData: async (timeRange) => {
-                    set({ isLoading: true });
+                    set({ isLoading: true, error: null });
 
                     try {
-                        // Simulación de datos de gráfico
-                        const mockChartData: ChartData = {
-                            labels: generateLabels(timeRange),
-                            datasets: [
-                                {
-                                    label: 'ventas',
-                                    data: generateRandomData(timeRange),
-                                    borderColor: '#3b82f6',
-                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                }
-                            ]
-                        };
-
-                        await new Promise((resolve) => setTimeout(resolve, 800));
-                        set({ chartData: mockChartData, isLoading: false });
-                    } catch {
-                        set({ error: 'Error al cargar datos del gráfico', isLoading: false });
+                        const chartData = await dashboardService.getChartData(timeRange);
+                        if (chartData) {
+                            set({ chartData, isLoading: false });
+                        } else {
+                            set({ isLoading: false });
+                        }
+                    } catch (error: any) {
+                        set({ error: error.message || 'Error al cargar datos del gráfico', isLoading: false });
                     }
                 },
 

@@ -25,7 +25,7 @@ export const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({
   className,
 }) => {
   return (
-    <Card className={className} padding="sm">
+    <Card className={className} padding="sm" data-testid="time-range-selector">
       <div className="flex items-center justify-between">
         <Typography variant="label" color="muted">
           Rango de Tiempo

@@ -72,7 +72,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   }
 
   return (
-    <Card className={className}>
+    <Card className={className} data-testid="metric-card">
       <CardContent className="p-4">
         <Typography variant="label" color="muted" className="mb-1">
           {title}

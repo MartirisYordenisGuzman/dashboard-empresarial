@@ -4,53 +4,16 @@ class DashboardService {
     private baseURL = process.env.API_BASE_URL || 'https://api.example.com';
 
     async getMetrics(): Promise<Metric[]> {
-        // Simulación de datos - en producción sería una llamada real
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        return [
-            {
-                id: 'revenue',
-                name: 'Ingresos Totales',
-                value: 125430,
-                previousValue: 118200,
-                unit: 'currency',
-                timestamp: new Date()
-            },
-            {
-                id: 'conversion',
-                name: 'Tasa de Conversión',
-                value: 4.3,
-                previousValue: 3.8,
-                unit: 'percentage',
-                timestamp: new Date()
-            },
-            {
-                id: 'users',
-                name: 'Usuarios Activos',
-                value: 2845,
-                previousValue: 2560,
-                unit: 'number',
-                timestamp: new Date()
-            }
-        ];
+        const response = await fetch('/api/metrics');
+        if (!response.ok) throw new Error('Failed to fetch metrics');
+        const data = await response.json();
+        return data.metrics;
     }
 
     async getChartData(timeRange: TimeRange): Promise<ChartData | null> {
-        await new Promise(resolve => setTimeout(resolve, 150));
-
-        const labels = this.generateLabels(timeRange);
-
-        return {
-            labels,
-            datasets: [
-                {
-                    label: 'Ventas',
-                    data: labels.map(() => Math.floor(Math.random() * 1000) + 500),
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                }
-            ]
-        };
+        const response = await fetch(`/api/chart-data?range=${timeRange}`);
+        if (!response.ok) throw new Error('Failed to fetch chart data');
+        return await response.json();
     }
 
     private generateLabels(timeRange: TimeRange): string[] {

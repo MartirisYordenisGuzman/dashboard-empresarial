@@ -6,6 +6,7 @@ import { DashboardLayout } from '@components/templates/DashboardLayout';
 import { MetricsGrid } from '@components/organisms/MetricsGrid';
 import { ChartsSection } from '@components/organisms/ChartsSection';
 import { Typography } from '@components/atoms/Typography';
+import { Button } from '@components/atoms/Button';
 import { useDashboard } from '@hooks/useDashboard';
 
 import { Metric, ChartData } from '@/types/dashboard';
@@ -27,7 +28,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
   featuredCharts = ['revenue', 'conversion', 'users'],
   initialData
 }) => {
-  const { fetchMetrics, fetchChartData, filters } = useDashboard({ initialData });
+  const { fetchMetrics, fetchChartData, filters, error } = useDashboard({ initialData });
   const [searchTerm, setSearchTerm] = React.useState('');
 
   // Cargar datos iniciales
@@ -42,6 +43,24 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
     loadInitialData();
   }, [fetchMetrics, fetchChartData, filters.timeRange]);
 
+  if (error) {
+    return (
+      <DashboardLayout className={className} onSearch={setSearchTerm}>
+        <div className="flex flex-col items-center justify-center min-h-[400px]" data-testid="error-state">
+          <Typography variant="h2" color="error" className="mb-4">
+            Error al cargar las métricas
+          </Typography>
+          <Typography variant="body" color="muted">
+            {error}
+          </Typography>
+          <Button variant="primary" className="mt-6" onClick={() => window.location.reload()}>
+            Reintentar
+          </Button>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout
       className={className}
@@ -49,7 +68,7 @@ export const DashboardTemplate: React.FC<DashboardTemplateProps> = ({
     >
       {/* Sección de Métricas Principales */}
       <section className="mb-8">
-        <Typography variant="h1" className="text-gray-900 mb-6">
+        <Typography variant="h1" className="text-gray-900 mb-6" data-testid="main-title">
           Resumen General
         </Typography>
         <MetricsGrid

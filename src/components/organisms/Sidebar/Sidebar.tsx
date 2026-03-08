@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { cn } from '@lib/utils';
 import { Typography } from '@components/atoms/Typography';
 import { Card } from '@components/atoms/Card';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
     ChartBarIcon,
     HomeIcon,
@@ -38,7 +40,7 @@ const navigationItems: SidebarItem[] = [
     },
     {
         id: 'analytics',
-        label: 'Analiticas',
+        label: 'Analíticas',
         icon: ChartBarIcon,
         href: '/analytics',
         badge: 3
@@ -62,10 +64,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     onItemClick
 }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeItem, setActiveItem] = useState('dashboard');
+    const pathname = usePathname();
 
     const handleItemClick = (itemId: string) => {
-        setActiveItem(itemId);
         onItemClick?.(itemId);
     };
 
@@ -114,16 +115,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <ul className="space-y-1 px-2">
                     {navigationItems.map((item) => {
                         const Icon = item.icon;
-                        const isActive = activeItem === item.id;
 
                         return (
                             <li key={item.id}>
-                                <button
+                                <Link
+                                    href={item.href}
                                     onClick={() => handleItemClick(item.id)}
                                     className={cn(
                                         'w-full flex items-center rounded-lg px-3 py-2 transition-all',
                                         'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-300',
-                                        isActive
+                                        pathname === item.href || (item.id === 'dashboard' && pathname === '/')
                                             ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-600'
                                             : 'text-gray-700'
                                     )}
@@ -144,7 +145,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                             {item.badge && (
                                                 <span className={cn(
                                                     'ml-auto inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
-                                                    isActive
+                                                    pathname === item.href || (item.id === 'dashboard' && pathname === '/')
                                                         ? 'bg-primary-100 text-primary-800'
                                                         : 'bg-gray-100 text-gray-800'
                                                 )}>
@@ -153,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                             )}
                                         </>
                                     )}
-                                </button>
+                                </Link>
                             </li>
                         );
                     })}

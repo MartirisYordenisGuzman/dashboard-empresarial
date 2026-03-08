@@ -45,9 +45,10 @@ export const useDashboard = (options: UseDashboardOptions = {}) => {
   }, []);
 
   return {
-    // Estado
-    metrics: options.initialData?.metrics || metrics,
-    chartData: options.initialData?.chartData || chartData,
+    // Estado - Preferimos el estado del store si existe data real (no la inicial de la definición)
+    // O simplemente usamos el store siempre, ya que lo hidratamos en el useEffect
+    metrics: metrics.length > 0 ? metrics : (options.initialData?.metrics || []),
+    chartData: chartData || options.initialData?.chartData || null,
     filters,
     isLoading,
     error,
